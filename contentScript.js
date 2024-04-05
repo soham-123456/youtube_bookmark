@@ -13,9 +13,10 @@
 
   const addNewBookmarkEventHandler = async () => {
     const currentTime = youtubePlayer.currentTime;
+    const Bookmark_at=prompt("Enter the your bookmark name");
     const newBookmark = {
       time: currentTime,
-      desc: "Bookmark at " + getTime(currentTime),
+      desc: Bookmark_at  + " " +getTime(currentTime),
     };
 
     currentVideoBookmarks = await fetchBookmarks();

@@ -71,17 +71,20 @@ const setBookmarkAttributes =  (src, eventListener, controlParentElement) => {
   controlParentElement.appendChild(controlElement);
 };
 
+let print_data="";
+let print_url="";
 document.addEventListener("DOMContentLoaded", async () => {
   const activeTab = await getActiveTabURL();
   const queryParameters = activeTab.url.split("?")[1];
   const urlParameters = new URLSearchParams(queryParameters);
 
   const currentVideo = urlParameters.get("v");
-
+  print_url=activeTab.url;
   if (activeTab.url.includes("youtube.com/watch") && currentVideo) {
     chrome.storage.sync.get([currentVideo], (data) => {
       const currentVideoBookmarks = data[currentVideo] ? JSON.parse(data[currentVideo]) : [];
-
+       print_data=JSON.stringify(currentVideoBookmarks);
+      console.log(JSON.stringify(currentVideoBookmarks));
       viewBookmarks(currentVideoBookmarks);
     });
   } else {
@@ -91,3 +94,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+
+function generateTextFile() {
+ 
+  console.log(print_data);
+  // var print_data = prompt("Enter text content for the file:");
+  if (!print_data) return;
+  console.log(print_data)
+  var blob = new Blob(["url : "+print_url+"\n"+print_data], { type: "text/plain" });
+  var link = document.createElement("a");
+  link.download = "generated_file.txt"; 
+  link.href = URL.createObjectURL(blob);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+document.getElementById("generateBtn").addEventListener("click", generateTextFile);

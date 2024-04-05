@@ -51,3 +51,12 @@
   flex: auto;
   text-align: right;
 }
+
+ .btn-d-t{
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+#generateBtn{
+  padding: 10px 20px;
+  font-size: 16px;
+}
